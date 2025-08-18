@@ -1,0 +1,13 @@
+column_name,description
+age,Age of patient (standardized)
+sex,Gender of patient (standardized)
+bmi,Body mass index (standardized)
+bp,Average blood pressure (standardized)
+s1,Serum measurement 1 (standardized)
+s2,Serum measurement 2 (standardized)
+s3,Serum measurement 3 (standardized)
+s4,Serum measurement 4 (standardized)
+s5,Serum measurement 5 (standardized)
+s6,Serum measurement 6 (standardized)
+target,Disease progression one year after baseline
+class,Binary indicator if target exceeds the median (1) or not (0)
