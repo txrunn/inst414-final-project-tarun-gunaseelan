@@ -15,8 +15,10 @@ from sklearn.metrics import (
     accuracy_score,
     precision_score,
     recall_score,
+    f1_score,
     roc_auc_score,
     roc_curve,
+    classification_report,
 )
 
 
@@ -51,16 +53,23 @@ def evaluate_model(results: dict, output_dir: str = "data/outputs") -> pd.DataFr
         acc = accuracy_score(y_test, y_pred)
         prec = precision_score(y_test, y_pred)
         rec = recall_score(y_test, y_pred)
+        f1 = f1_score(y_test, y_pred)
         auc = roc_auc_score(y_test, y_prob)
         metrics_df = pd.DataFrame(
             {
-                "metric": ["accuracy", "precision", "recall", "roc_auc"],
-                "value": [acc, prec, rec, auc],
+                "metric": ["accuracy", "precision", "recall", "f1_score", "roc_auc"],
+                "value": [acc, prec, rec, f1, auc],
             }
         )
         os.makedirs(output_dir, exist_ok=True)
         metrics_df.to_csv(os.path.join(output_dir, "evaluation_metrics.csv"), index=False)
         logging.info("Saved evaluation metrics to evaluation_metrics.csv")
+
+        # Save a text classification report for more detail
+        report = classification_report(y_test, y_pred, output_dict=False)
+        with open(os.path.join(output_dir, "classification_report.txt"), "w") as f:
+            f.write(report)
+        logging.info("Saved classification report to classification_report.txt")
         # Confusion matrix plot
         cm = confusion_matrix(y_test, y_pred)
         fig_cm = plt.figure()
